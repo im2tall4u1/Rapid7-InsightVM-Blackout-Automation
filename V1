@@ -1,0 +1,56 @@
+import selenium
+from selenium import webdriver
+import requests
+from bs4 import BeautifulSoup
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+
+
+
+
+chrome_options = Options()
+chrome_options.add_argument('--start-maximized')
+chrome_options.add_argument('--disable-infobars')
+#chrome_options.add_argument('user-data-dir=selenium')
+
+browser = webdriver.Chrome(chrome_options=chrome_options)
+type(browser)
+
+url = 'https://rapid7.mlbcsi.com:3780/login.jsp'
+browser.get(url)
+browser.implicitly_wait(12)
+
+userElem = browser.find_element_by_id('nexposeccusername')
+userElem.send_keys('usernamehere')
+passElem = browser.find_element_by_id('nexposeccpassword')
+passElem.send_keys('passwordhere')
+loginElem = browser.find_element_by_id('login_button')
+loginElem.click()
+assetsElem = browser.find_element_by_id('Assets')
+assetsElem.click()
+sitesElem = browser.find_element_by_id('totalSites')
+sitesElem.click()
+mlbtestElem = browser.find_element_by_xpath("/html/body/div[3]/div[1]/div[2]/div/div[2]/div[3]/div[2]/table/tbody/tr[73]/td[1]/a")
+mlbtestElem.click()
+managesiteElem = browser.find_element_by_id('manage_site_button')
+managesiteElem.click()
+scheduleElem = browser.find_element_by_xpath('/html/body/div[3]/div[1]/div[2]/div[1]/ul/li[7]/div/label')
+scheduleElem.click()
+blackoutElem = browser.find_element_by_xpath('/html/body/div[3]/div[1]/div[2]/div[2]/div/div/ul/li[4]/a[1]')
+blackoutElem.click()
+inputElement_HH = browser.find_element_by_id("scanBlackoutHour")
+inputElement_HH.send_keys("08")
+inputElement_MM = browser.find_element_by_id("scanBlackoutMinute")
+inputElement_MM.send_keys("37")
+am_or_pm = Select(browser.find_element_by_id("scanBlackoutTimeFrame"))
+am_or_pm.select_by_index(1)
+durationElem = browser.find_element_by_xpath('/html/body/div[3]/div[1]/div[2]/div[2]/div/div/div/div/ng-include/div/form/fieldset/div[12]/div[6]/input')
+durationElem.send_keys('12')
+saveElem = browser.find_element_by_xpath('/html/body/div[3]/div[1]/div[2]/div[2]/div/div/div/div/ng-include/div/form/fieldset/div[17]/div[2]/button')
+saveElem.click()
+savescanElem = browser.find_element_by_id("btnScanConfigSave").click()
